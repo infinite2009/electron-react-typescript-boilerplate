@@ -1,0 +1,18 @@
+@import url('./variable');
+
+.title() {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.horizontalLayout() {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  > * {
+    margin-right: 20px;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+}
