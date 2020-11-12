@@ -16,7 +16,11 @@ function createRenderConfig(isDev) {
     target: 'electron-renderer',
 
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css', '.scss'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css', '.less'],
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@ant-design/icons$': path.resolve(__dirname, 'src/types/icon.ts'),
+      },
     },
 
     mode: isDev ? DEVELOPMENT : PRODUCTION,
@@ -194,7 +198,7 @@ function createMainConfig(isDev) {
         cleanOnceBeforeBuildPatterns: ['main-process.*.js'],
       }),
 
-      // inject this because the main process uses different logic for prod and dev.
+      // inject this because the main process uses different logic for prod and dev-page.
       new DefinePlugin({
         ENVIRONMENT: JSON.stringify(isDev ? DEVELOPMENT : PRODUCTION), // this variable name must match the one declared in the main process file.
       }),
