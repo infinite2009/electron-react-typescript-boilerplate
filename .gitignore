@@ -1,3 +1,6 @@
 node_modules
 dist
 pack
+.idea/**/*
+package-lock.json
+yarn.lock
