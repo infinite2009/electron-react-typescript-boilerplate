@@ -41,7 +41,8 @@ function createRenderConfig(isDev) {
       react: 'React',
       'react-dom': 'ReactDOM',
       'react-router-dom': 'ReactRouterDOM',
-      fs: "require('fs')", // we must add node native functions as externals to be able to use them. see ./src/views/FooView.tsx.
+      // 非常重要：we must add node native functions as externals to be able to use them. 例如 import fs from 'fs';
+      fs: "require('fs')",
     },
 
     module: {
