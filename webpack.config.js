@@ -46,7 +46,40 @@ function createRenderConfig(isDev) {
           test: /\.scss$/,
           use: ['style-loader', 'css-loader', 'sass-loader'],
         },
-
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.less$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                },
+                sourceMap: isDev,
+              },
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true,
+                },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
+          },
+        },
         {
           // transforms font files in base64 data. That's the only way I could import fonts in .scss files.
           test: /\.(jpg|jpeg|png|gif|woff|woff2|eot|ttf|svg)$/,
