@@ -19,7 +19,7 @@ function createRenderConfig(isDev) {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css', '.less'],
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@ant-design/icons$': path.resolve(__dirname, 'src/types/icon.ts'),
+        // '@ant-design/icons$': path.resolve(__dirname, 'src/types/icon.ts'),
       },
     },
 

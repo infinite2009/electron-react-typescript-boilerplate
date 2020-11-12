@@ -19,6 +19,7 @@
     "pack": "npx rimraf ./pack && npm run build-prod && npx electron-packager ./dist --out ./pack --overwrite"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "antd": "^4.8.2",
     "fontsource-roboto": "^3.0.3",
     "react": "^16.14.0",
