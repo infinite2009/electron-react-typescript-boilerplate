@@ -25,7 +25,7 @@ export default class BarView extends React.Component<RouteComponentProps, BarVie
         });
 
     }
-    
+
     componentDidMount() {
         this._clock.run();
     }

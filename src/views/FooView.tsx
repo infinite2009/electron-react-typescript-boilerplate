@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import fs from "fs";
+import fs from 'fs';
 
 interface State {
     text: string;
@@ -46,11 +46,9 @@ export default class FooView extends React.Component<RouteComponentProps, State>
 
     loadFileContentAsync = async (filePath: string): Promise<string> => {
         try {
-            let content = await fs.promises.readFile(filePath, { encoding: "utf-8"});
-            return content;
-            
+          return await fs.promises.readFile(filePath, { encoding: 'utf-8' });
         } catch (error) {
-            throw error;            
+            throw error;
         }
     }
 
