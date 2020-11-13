@@ -174,6 +174,13 @@ function createMainConfig(isDev) {
       'main-process': './main-process.ts',
     },
 
+    resolve: {
+      extensions: ['.ts'],
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+
     output: {
       filename: '[name].js',
       path: path.join(__dirname, 'dist'),
