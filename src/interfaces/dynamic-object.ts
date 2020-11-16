@@ -1,4 +1,4 @@
 export default interface DynamicObject {
-  [key:string]: string;
-  [index:number]: string;
+  [key:string]: any;
+  [index:number]: any;
 }

@@ -171,7 +171,7 @@ function createMainConfig(isDev) {
     },
 
     resolve: {
-      extensions: ['.ts'],
+      extensions: ['.ts', '.js', '.json'],
       alias: {
         '@': path.resolve(__dirname, './src'),
       },
