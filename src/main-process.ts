@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import { getStartUpParams } from '@/utils';
 import * as url from 'url';
 import * as fs from 'fs';
+import log from 'electron-log';
 
 
 declare const ENVIRONMENT: String;
@@ -14,6 +15,11 @@ let win: BrowserWindow | null = null;
 
 const startUpParams = getStartUpParams();
 console.log('startUpParams: ', startUpParams);
+
+// 打包环境下，用 electron-log 的日志方法不改 console
+if (!IS_DEV) {
+  console = Object.assign(console, log.functions);
+}
 
 function createWindow() {
   win = new BrowserWindow({
@@ -37,6 +43,7 @@ function createWindow() {
         // 只有拿到这个配置，知道项目叫什么名字，才能加载组件的js文件
         const umdJSFileName = 'index.umd.js';
         const umdJSFilePath = `${projectPath}/${umdJSFileName}`;
+        console.log('umdJSFilePath: ', umdJSFilePath);
         win
           .loadURL(
             url.format({
