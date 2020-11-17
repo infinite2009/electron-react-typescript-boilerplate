@@ -92,6 +92,5 @@ function loadComponentList(win: Electron.BrowserWindow | null) {
       .catch(err => {
         console.error('err: ', err);
       });
-    // 通知渲染进程加载本地js文件
   }
 }
