@@ -14,7 +14,6 @@ const HTML_FILE_PATH = 'index.html';
 let win: BrowserWindow | null = null;
 
 const startUpParams = getStartUpParams();
-console.log('startUpParams: ', startUpParams);
 
 // 打包环境下，用 electron-log 的日志方法不改 console
 if (!IS_DEV) {
@@ -86,13 +85,12 @@ function loadComponentList(win: Electron.BrowserWindow | null) {
       .executeJavaScript(scriptContent)
       .then(() => {
         // 通知渲染进程，初始化组件
-        console.log('main-process-messages send');
         webContents.send('main-process-messages', {
           projectConfig,
         });
       })
       .catch(err => {
-        console.log('err: ', err);
+        console.error('err: ', err);
       });
     // 通知渲染进程加载本地js文件
   }
