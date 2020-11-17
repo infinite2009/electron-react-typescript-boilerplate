@@ -3,6 +3,7 @@ import { getStartUpParams } from '@/utils';
 import * as fs from 'fs';
 import jsonfile from 'jsonfile';
 import log from 'electron-log';
+import filewatcher from 'filewatcher';
 
 
 declare const ENVIRONMENT: String;
@@ -31,7 +32,7 @@ function createWindow() {
   });
 
   ipcMain.on('beforeunload', () => {
-    loadComponentList(win);
+    initComponentLoading(win);
   });
 
   if (IS_DEV) {
@@ -42,7 +43,7 @@ function createWindow() {
   }
 
   // 加载第三方组件
-  loadComponentList(win);
+  initComponentLoading(win);
 
   win.on('closed', () => {
     win = null;
@@ -65,32 +66,56 @@ app.on('activate', () => {
   }
 });
 
-function loadComponentList(win: Electron.BrowserWindow | null) {
+function initComponentLoading(win: Electron.BrowserWindow | null) {
   if (!win) {
     return;
   }
   // 如果启动时有路径参数
   if (startUpParams && startUpParams.path) {
     const { path: projectPath } = startUpParams;
-    // 读取第三方组件工程目录下的配置文件
-    const configFileName = 'nezha.config.json';
-    const configFilePath = `${projectPath}/${configFileName}`;
-    const projectConfig = jsonfile.readFileSync(configFilePath);
-    // 只有拿到这个配置，知道项目叫什么名字，才能加载组件的js文件
-    const umdJSFileName = 'index.umd.js';
-    const umdJSFilePath = `${projectPath}/src/dist/${umdJSFileName}`;
-    const scriptContent = fs.readFileSync(umdJSFilePath, { encoding: 'utf8' });
-    const { webContents } = win;
-    webContents
-      .executeJavaScript(scriptContent)
-      .then(() => {
-        // 通知渲染进程，初始化组件
-        webContents.send('main-process-messages', {
-          projectConfig,
-        });
-      })
-      .catch(err => {
-        console.error('err: ', err);
-      });
+    loadFile(projectPath);
+    watchFileChange(projectPath);
   }
+}
+
+function watchFileChange(projectPath: string) {
+  if (!projectPath) {
+    return;
+  }
+
+  const watcher = filewatcher();
+  watcher.add(projectPath);
+
+  watcher.on('change', (...args: any[]) => {
+    console.log(args);
+    loadFile(projectPath);
+  });
+
+  return watcher;
+}
+
+function loadFile(projectPath: string) {
+  if (!projectPath || !win) {
+    return;
+  }
+  // 读取第三方组件工程目录下的配置文件
+  const configFileName = 'nezha.config.json';
+  const configFilePath = `${projectPath}/${configFileName}`;
+  const projectConfig = jsonfile.readFileSync(configFilePath);
+  // 只有拿到这个配置，知道项目叫什么名字，才能加载组件的js文件
+  const umdJSFileName = 'index.umd.js';
+  const umdJSFilePath = `${projectPath}/src/dist/${umdJSFileName}`;
+  const scriptContent = fs.readFileSync(umdJSFilePath, { encoding: 'utf8' });
+  const { webContents } = win;
+  webContents
+    .executeJavaScript(scriptContent)
+    .then(() => {
+      // 通知渲染进程，初始化组件
+      webContents.send('main-process-messages', {
+        projectConfig,
+      });
+    })
+    .catch(err => {
+      console.error('err: ', err);
+    });
 }

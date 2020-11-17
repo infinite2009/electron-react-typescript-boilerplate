@@ -24,8 +24,10 @@
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.8.2",
     "electron-log": "^4.3.0",
+    "filewatcher": "^3.0.1",
     "fontsource-roboto": "^3.0.3",
     "jsonfile": "^6.1.0",
+    "lodash": "^4.17.20",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0"
