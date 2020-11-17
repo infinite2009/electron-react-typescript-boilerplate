@@ -16,7 +16,8 @@
     "build-prod": "npx webpack --env.NODE_ENV=production --env.target=render && npx webpack --env.NODE_ENV=production --env.target=main",
     "server": "npx webpack-dev-server --env.NODE_ENV=development --env.target=render --hot",
     "start": "npx webpack --env.NODE_ENV=development --env.target=main && npx electron ./dist/.",
-    "pack": "npx rimraf ./pack && npm run build-prod && npx electron-packager ./dist --out ./pack --overwrite"
+    "pack": "npx rimraf ./pack && npm run build-prod && npx electron-packager ./dist --out ./pack --overwrite",
+    "pack:dmg": "npm run pack && electron-installer-dmg ./pack/nezha-client-darwin-x64/nezha-client.app nezha-client --out pack"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
@@ -49,6 +50,7 @@
     "copy-webpack-plugin": "^6.2.1",
     "css-loader": "^5.0.0",
     "electron": "^10.1.4",
+    "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^15.1.0",
     "file-loader": "^6.2.0",
     "html-webpack-externals-plugin": "^3.8.0",
@@ -65,5 +67,6 @@
     "webpack": "^5.1.3",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  }
+  },
+  "postinstall": "electron-builder install-app-deps"
 }
