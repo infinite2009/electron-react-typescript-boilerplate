@@ -74,16 +74,19 @@ function initComponentLoading(win: Electron.BrowserWindow | null) {
   if (startUpParams && startUpParams.path) {
     const { path: projectPath } = startUpParams;
     loadFile(projectPath);
+    console.log('before watch file change');
     watchFileChange(projectPath);
   }
 }
 
 function watchFileChange(projectPath: string) {
+  console.log('watch file change: ', projectPath);
   if (!projectPath) {
     return;
   }
 
   const watcher = filewatcher();
+  console.log('watched');
   watcher.add(projectPath);
 
   watcher.on('change', (...args: any[]) => {
